@@ -1,0 +1,50 @@
+## 
+## Samsung Galaxy S Duos - kyleopen initilization script
+## 
+
+import init.qcom.usb.rc
+
+on init
+    loglevel 10
+    
+    mkdir /mnt/sdcard0 0700 root sdcard_rw
+    mkdir /storage/sdcard0 0555 root root
+    mkdir /storage/sdcard1 0700 root root
+
+    export EXTERNAL_STORAGE /mnt/sdcard0
+    export EMULATED_STORAGE_SOURCE /mnt/sdcard0
+    export EMULATED_STORAGE_TARGET /storage/sdcard0
+    export SECONDARY_STORAGE /storage/sdcard1
+
+    mkdir /efs 0771 system radio
+    mkdir /preload 0771 system system
+
+on emmc-fs
+    wait /dev/block/mmcblk0p16
+    mount ext4 /dev/block/mmcblk0p16 /system ro barrier=1
+
+    #exec set_crypt_meta_info /dev/block/mmcblk0p25 data
+    wait /dev/block/mmcblk0p25
+    #exec sfsck /dev/block/mmcblk0p25 ext4 encryptable
+    mount ext4 /dev/block/mmcblk0p25 /data nosuid nodev noatime barrier=1 discard,noauto_da_alloc,journal_async_commit
+    mount ext4 /dev/block/mmcblk0p11 /persist nosuid nodev barrier=1
+    wait /dev/block/mmcblk0p17
+    exec sfsck /dev/block/mmcblk0p17 ext4
+    mount ext4 /dev/block/mmcblk0p17 /cache nosuid nodev barrier=1
+    wait /dev/block/mmcblk0p19
+    exec sfsck /dev/block/mmcblk0p19 ext4
+    mount ext4 /dev/block/mmcblk0p19 /efs nosuid nodev barrier=1
+    chown system radio /efs
+    chmod 0771 /efs
+    chown root system /dev/block/mmcblk0p13
+    chmod 0660 /dev/block/mmcblk0p13
+	
+	# For SysScope	
+	symlink /dev/block/mmcblk0p13 /dev/block/param
+
+    #insmod /system/lib/modules/exfat_core.ko
+    #insmod /system/lib/modules/exfat_fs.ko
+
+service sdcard /system/bin/sdcard /data/media /mnt/sdcard0 1023 1023
+    class late_start
+
