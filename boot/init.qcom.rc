@@ -45,6 +45,42 @@ on emmc-fs
     #insmod /system/lib/modules/exfat_core.ko
     #insmod /system/lib/modules/exfat_fs.ko
 
+on post-fs-data
+    start sdcard
+
+on boot
+    #Create QMUX deamon socket area
+    mkdir /dev/socket/radio 0770 radio radio
+    chmod 2770 /dev/socket/radio
+    mkdir /dev/socket/audio 0770 media audio
+    chmod 2770 /dev/socket/audio
+    mkdir /dev/socket/qmux_radio 0770 radio radio
+    chmod 2770 /dev/socket/qmux_radio
+    mkdir /dev/socket/qmux_audio 0770 media audio
+    chmod 2770 /dev/socket/qmux_audio
+
+on property:ro.use_data_netmgrd=false
+    stop netmgrd
+
 service sdcard /system/bin/sdcard /data/media /mnt/sdcard0 1023 1023
     class late_start
+    disabled
+
+service qmuxd /system/bin/qmuxd
+    class main
+    user radio
+    group radio log audio bluetooth
+
+service netmgrd /system/bin/netmgrd
+    class main
+
+service qmiproxy /system/bin/qmiproxy
+    class main
+    user radio
+    group radio log
+    
+service secril-daemon /system/bin/sec-ril
+    class main
+    user root
+    group radio cache inet misc audio sdcard_rw diag log
 

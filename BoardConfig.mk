@@ -12,8 +12,8 @@ TARGET_BOOTLOADER_BOARD_NAME := kyleopen
 TARGET_PREBUILT_KERNEL := device/samsung/kernel.s7562
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
-TARGET_KERNEL_SOURCE := kernel/samsung/kyleopen
-TARGET_KERNEL_CONFIG := cyanogenmod/kyle02_defconfig
+#TARGET_KERNEL_SOURCE := kernel/samsung/kyleopen
+#TARGET_KERNEL_CONFIG := cyanogenmod/kyle02_defconfig
 
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 andriodboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x00200000
@@ -21,10 +21,6 @@ BOARD_KERNEL_PAGESIZE := 4096
 
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a5 -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a5 -mfpu=neon -mfloat-abi=softfp
-
-## Logging
-#TARGET_GLOBAL_CFLAGS += -DLOG_NDEBUG=0
-#TARGET_GLOBAL_CPPFLAGS += -DLOG_NDEBUG=0
 
 ## Bionic
 TARGET_CORTEX_CACHE_LINE_32 := true

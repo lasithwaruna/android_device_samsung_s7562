@@ -50,6 +50,10 @@ PRODUCT_COPY_FILES += \
     device/samsung/kyleopen/prebuilts/usr/keylayout/7x27a_kp.kl:system/usr/keylayout/7x27a_kp.kl \
     device/samsung/kyleopen/prebuilts/usr/keylayout/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
     device/samsung/kyleopen/prebuilts/usr/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl
+    
+## Vold
+PRODUCT_COPY_FILES += \
+    device/samsung/kyleopen/prebuilts/vold.fstab:system/etc/vold.fstab
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_kyleopen
