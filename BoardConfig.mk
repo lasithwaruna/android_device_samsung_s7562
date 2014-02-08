@@ -9,11 +9,11 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_VARIANT := cortex-a5
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/kyleopen/include
 TARGET_BOOTLOADER_BOARD_NAME := kyleopen
-TARGET_PREBUILT_KERNEL := device/samsung/kernel.s7562
+#TARGET_PREBUILT_KERNEL := device/samsung/kernel.s7562
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
-#TARGET_KERNEL_SOURCE := kernel/samsung/kyleopen
-#TARGET_KERNEL_CONFIG := cyanogenmod/kyle02_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/kyleopen
+TARGET_KERNEL_CONFIG := cyanogenmod_kyle02_defconfig
 
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 andriodboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x00200000
@@ -21,6 +21,12 @@ BOARD_KERNEL_PAGESIZE := 4096
 
 TARGET_GLOBAL_CFLAGS += -mtune=cortex-a5 -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a5 -mfpu=neon -mfloat-abi=softfp
+
+## Legacy
+
+TARGET_QCOM_DISPLAY_VARIANT := legacy
+TARGET_QCOM_AUDIO_VARIANT := legacy
+TARGET_QCOM_MEDIA_VARIANT := legacy
 
 ## Bionic
 TARGET_CORTEX_CACHE_LINE_32 := true
@@ -80,14 +86,13 @@ TARGET_BOOTANIMATION_USE_RGB565 := true
 
 ## Graphics, media
 USE_OPENGL_RENDERER := true
-TARGET_QCOM_DISPLAY_VARIANT := legacy
 TARGET_NO_HW_VSYNC := true
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_ADRENO_DECIDE_TEXTURE_TARGET := true
 BOARD_USE_LEGACY_TOUCHSCREEN := false
 BOARD_EGL_CFG := device/samsung/kyleopen/prebuilts/egl.cfg
 COMMON_GLOBAL_CFLAGS += -DQCOM_LEGACY_OMX
-COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DANCIENT_GL
+COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DANCIENT_GL -DQCOM_NO_SECURE_PLAYBACK
 
 ## Bluetooth
 BOARD_HAVE_BLUETOOTH := true
